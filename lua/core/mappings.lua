@@ -376,6 +376,43 @@ M.nvterm = {
       end,
       "New vertical term",
     },
+
+    -- toggle all terminal windows
+    ["<leader>tt"] = {
+      function()
+        -- usa _G para persistir estado entre chamadas
+        _G.hidden_term_bufs = _G.hidden_term_bufs or {}
+
+        -- verifica se há terminais visíveis
+        local visible_terms = {}
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].buftype == "terminal" then
+            table.insert(visible_terms, { win = win, buf = buf })
+          end
+        end
+
+        if #visible_terms > 0 then
+          -- esconde terminais e salva os buffers
+          _G.hidden_term_bufs = {}
+          for _, term in ipairs(visible_terms) do
+            table.insert(_G.hidden_term_bufs, term.buf)
+            vim.api.nvim_win_hide(term.win)
+          end
+        elseif #_G.hidden_term_bufs > 0 then
+          -- restaura terminais escondidos
+          for i, buf in ipairs(_G.hidden_term_bufs) do
+            if vim.api.nvim_buf_is_valid(buf) then
+              vim.cmd("botright split")
+              vim.api.nvim_win_set_buf(0, buf)
+              vim.cmd("resize " .. math.floor(vim.o.lines * 0.25))
+            end
+          end
+          _G.hidden_term_bufs = {}
+        end
+      end,
+      "Toggle all terminals",
+    },
   },
 }
 

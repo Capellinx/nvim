@@ -255,6 +255,17 @@
 | `Ctrl+w r` | Rotacionar janelas |
 | `Ctrl+w q` | Fechar janela |
 
+### Redimensionar Janelas
+| Tecla | Ação |
+|-------|------|
+| `Ctrl+w +` | Aumentar altura |
+| `Ctrl+w -` | Diminuir altura |
+| `Ctrl+w >` | Aumentar largura |
+| `Ctrl+w <` | Diminuir largura |
+| `:resize N` | Definir altura para N linhas |
+| `:vertical resize N` | Definir largura para N colunas |
+| `5 Ctrl+w +` | Aumentar altura em 5 linhas |
+
 ---
 
 ## Terminal
@@ -266,6 +277,8 @@
 | `Alt+v` | Terminal vertical |
 | `<leader>h` | Novo terminal horizontal |
 | `<leader>v` | Novo terminal vertical |
+| `<leader>tt` | Esconder/mostrar todos os terminais |
+| `<leader>pt` | Listar terminais ocultos (Telescope) |
 | `Ctrl+x` | Sair do modo terminal |
 
 ---

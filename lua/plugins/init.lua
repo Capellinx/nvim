@@ -23,6 +23,21 @@ local default_plugins = {
     init = function()
       require("core.utils").load_mappings "nvterm"
     end,
+    opts = {
+      terminals = {
+        type_opts = {
+          horizontal = { location = "rightbelow", split_ratio = 0.25 }, -- 25% da tela
+          vertical = { location = "rightbelow", split_ratio = 0.4 },
+          float = {
+            relative = "editor",
+            row = 0.1,
+            col = 0.1,
+            width = 0.8,
+            height = 0.7,
+          },
+        },
+      },
+    },
     config = function(_, opts)
       require "base46.term"
       require("nvterm").setup(opts)
@@ -109,7 +124,7 @@ local default_plugins = {
   -- git stuff
   {
     "lewis6991/gitsigns.nvim",
-    event = "User FilePost",
+    event = { "BufReadPre", "BufNewFile" },
     opts = function()
       return require("plugins.configs.others").gitsigns
     end,
@@ -265,6 +280,67 @@ local default_plugins = {
           accept_word = "<C-j>",
         },
       })
+    end,
+  },
+
+  -- Toggleterm for lazygit and lazydocker
+  {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    cmd = "ToggleTerm",
+    keys = {
+      { "<leader>gg", desc = "Lazygit" },
+      { "<leader>ld", desc = "Lazydocker" },
+    },
+    config = function()
+      require("toggleterm").setup({
+        size = function(term)
+          if term.direction == "horizontal" then
+            return 15
+          elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+          end
+        end,
+        shade_terminals = false,
+        float_opts = {
+          border = "curved",
+          width = function()
+            return math.floor(vim.o.columns * 0.9)
+          end,
+          height = function()
+            return math.floor(vim.o.lines * 0.9)
+          end,
+        },
+      })
+
+      local Terminal = require("toggleterm.terminal").Terminal
+
+      local lazygit = Terminal:new({
+        cmd = "lazygit",
+        dir = "git_dir",
+        direction = "float",
+        hidden = true,
+        on_open = function(term)
+          vim.cmd("startinsert!")
+        end,
+      })
+
+      local lazydocker = Terminal:new({
+        cmd = "lazydocker",
+        direction = "float",
+        hidden = true,
+        on_open = function(term)
+          vim.cmd("startinsert!")
+        end,
+      })
+
+      vim.keymap.set("n", "<leader>gg", function()
+        lazygit:toggle()
+      end, { desc = "Lazygit" })
+
+      vim.keymap.set("n", "<leader>ld", function()
+        lazydocker:toggle()
+      end, { desc = "Lazydocker" })
     end,
   },
 
