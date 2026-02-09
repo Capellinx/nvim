@@ -103,17 +103,33 @@ local default_plugins = {
     build = ":TSUpdate",
     config = function()
       dofile(vim.g.base46_cache .. "syntax")
+      dofile(vim.g.base46_cache .. "treesitter")
+
+      -- Função para aplicar treesitter a um buffer
+      local function apply_ts(buf)
+        if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == "" then
+          pcall(vim.treesitter.start, buf)
+        end
+      end
+
       -- Instala os parsers
-      local parsers = { "lua", "vim", "vimdoc", "go", "gomod", "gosum", "gowork", "typescript", "tsx", "javascript", "html", "css", "json", "graphql" }
+      local parsers = { "lua", "vim", "vimdoc", "go", "gomod", "gosum", "gowork", "typescript", "tsx", "javascript", "html", "css", "json", "graphql", "yaml" }
       vim.schedule(function()
         require("nvim-treesitter").install(parsers)
       end)
-      -- Habilita highlight para todos os filetypes
+
+      -- Habilita highlight para novos buffers
       vim.api.nvim_create_autocmd("FileType", {
         callback = function(args)
-          pcall(vim.treesitter.start, args.buf)
+          apply_ts(args.buf)
         end,
       })
+
+      -- Aplica aos buffers que já existem (primeiro arquivo)
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        apply_ts(buf)
+      end
+
       -- Habilita indent via treesitter
       vim.opt.foldmethod = "expr"
       vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"

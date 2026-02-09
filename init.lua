@@ -19,3 +19,17 @@ end
 dofile(vim.g.base46_cache .. "defaults")
 vim.opt.rtp:prepend(lazypath)
 require "plugins"
+
+-- Aplica treesitter ao primeiro buffer após tudo carregar
+vim.api.nvim_create_autocmd("UIEnter", {
+  once = true,
+  callback = function()
+    vim.defer_fn(function()
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype == "" then
+          pcall(vim.treesitter.start, buf)
+        end
+      end
+    end, 100)
+  end,
+})

@@ -141,16 +141,13 @@ new_cmd("NvChadUpdate", function()
   require "nvchad.updater"()
 end, {})
 
--- Abrir NvimTree automaticamente ao iniciar
-autocmd("VimEnter", {
+-- Abrir NvimTree automaticamente ao iniciar (após treesitter)
+autocmd("UIEnter", {
+  once = true,
   callback = function()
-    require("nvim-tree.api").tree.open()
-  end,
-})
-
--- Habilitar treesitter highlight
-autocmd("FileType", {
-  callback = function()
-    pcall(vim.treesitter.start)
+    vim.defer_fn(function()
+      require("nvim-tree.api").tree.open()
+      vim.cmd("wincmd p") -- volta o foco para o arquivo
+    end, 50)
   end,
 })
