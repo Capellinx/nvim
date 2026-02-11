@@ -2,6 +2,26 @@ local cmp = require "cmp"
 
 dofile(vim.g.base46_cache .. "cmp")
 
+-- Variável global para controlar estado do autocomplete
+vim.g.cmp_enabled = true
+
+-- Comandos para habilitar/desabilitar autocomplete
+vim.api.nvim_create_user_command("CmpEnable", function()
+  vim.g.cmp_enabled = true
+  vim.notify("Autocomplete habilitado", vim.log.levels.INFO)
+end, {})
+
+vim.api.nvim_create_user_command("CmpDisable", function()
+  vim.g.cmp_enabled = false
+  vim.notify("Autocomplete desabilitado", vim.log.levels.INFO)
+end, {})
+
+vim.api.nvim_create_user_command("CmpToggle", function()
+  vim.g.cmp_enabled = not vim.g.cmp_enabled
+  local status = vim.g.cmp_enabled and "habilitado" or "desabilitado"
+  vim.notify("Autocomplete " .. status, vim.log.levels.INFO)
+end, {})
+
 local cmp_ui = require("core.utils").load_config().ui.cmp
 local cmp_style = cmp_ui.style
 
@@ -45,6 +65,10 @@ local function border(hl_name)
 end
 
 local options = {
+  enabled = function()
+    return vim.g.cmp_enabled
+  end,
+
   completion = {
     completeopt = "menu,menuone",
   },

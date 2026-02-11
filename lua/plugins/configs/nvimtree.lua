@@ -13,10 +13,24 @@ local options = {
     update_root = false,
   },
   view = {
-    adaptive_size = false,
-    side = "left",
-    width = 50,
-    preserve_window_proportions = true,
+    float = {
+      enable = true,
+      open_win_config = function()
+        local screen_w = vim.opt.columns:get()
+        local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+        return {
+          border = "rounded",
+          relative = "editor",
+          row = 0,
+          col = 0,
+          width = screen_w,
+          height = screen_h,
+        }
+      end,
+    },
+    width = function()
+      return vim.opt.columns:get()
+    end,
   },
   git = {
     enable = true,
