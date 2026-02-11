@@ -141,8 +141,9 @@ new_cmd("NvChadUpdate", function()
   require "nvchad.updater"()
 end, {})
 
--- Abrir NvimTree automaticamente ao iniciar (após treesitter)
-autocmd("UIEnter", {
+-- Abrir NvimTree automaticamente ao iniciar (após FilePost carregar LSP/treesitter)
+autocmd("User", {
+  pattern = "FilePost",
   once = true,
   callback = function()
     vim.defer_fn(function()

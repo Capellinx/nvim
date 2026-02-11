@@ -85,10 +85,51 @@ vim.lsp.config.lua_ls = {
   },
 }
 
+vim.lsp.config.tailwindcss = {
+  on_init = M.on_init,
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+}
+
+vim.lsp.config.html = {
+  on_init = M.on_init,
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+}
+
+vim.lsp.config.cssls = {
+  on_init = M.on_init,
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+  settings = {
+    css = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+    scss = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+    less = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+  },
+}
+
 -- Habilita os LSP servers
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("gopls")
 vim.lsp.enable("lua_ls")
+vim.lsp.enable("tailwindcss")
+vim.lsp.enable("html")
+vim.lsp.enable("cssls")
 
 -- Auto-import e format ao salvar arquivos Go
 vim.api.nvim_create_autocmd("BufWritePre", {

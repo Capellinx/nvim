@@ -2,7 +2,7 @@
 local M = {}
 
 M.ui = {
-  theme = 'jellybeans',
+  theme = 'ashes',
   lsp_semantic_tokens = true,
 }
 

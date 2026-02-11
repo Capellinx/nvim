@@ -380,35 +380,71 @@ M.nvterm = {
     -- toggle all terminal windows
     ["<leader>tt"] = {
       function()
-        -- usa _G para persistir estado entre chamadas
-        _G.hidden_term_bufs = _G.hidden_term_bufs or {}
+        _G.hidden_terms = _G.hidden_terms or {}
 
-        -- verifica se há terminais visíveis
+        -- coleta terminais visíveis com suas posições
         local visible_terms = {}
         for _, win in ipairs(vim.api.nvim_list_wins()) do
           local buf = vim.api.nvim_win_get_buf(win)
           if vim.bo[buf].buftype == "terminal" then
-            table.insert(visible_terms, { win = win, buf = buf })
+            local pos = vim.api.nvim_win_get_position(win)
+            table.insert(visible_terms, {
+              win = win,
+              buf = buf,
+              col = pos[2],
+              height = vim.api.nvim_win_get_height(win),
+            })
           end
         end
 
         if #visible_terms > 0 then
-          -- esconde terminais e salva os buffers
-          _G.hidden_term_bufs = {}
+          -- ordena por coluna (esquerda para direita)
+          table.sort(visible_terms, function(a, b)
+            return a.col < b.col
+          end)
+
+          _G.hidden_terms = { height = visible_terms[1].height, terms = {} }
           for _, term in ipairs(visible_terms) do
-            table.insert(_G.hidden_term_bufs, term.buf)
+            table.insert(_G.hidden_terms.terms, term.buf)
             vim.api.nvim_win_hide(term.win)
           end
-        elseif #_G.hidden_term_bufs > 0 then
-          -- restaura terminais escondidos
-          for i, buf in ipairs(_G.hidden_term_bufs) do
-            if vim.api.nvim_buf_is_valid(buf) then
-              vim.cmd("botright split")
-              vim.api.nvim_win_set_buf(0, buf)
-              vim.cmd("resize " .. math.floor(vim.o.lines * 0.25))
+        elseif _G.hidden_terms.terms and #_G.hidden_terms.terms > 0 then
+          local terms = _G.hidden_terms.terms
+          local height = _G.hidden_terms.height
+
+          -- encontra janela de código (não NvimTree, não terminal)
+          local code_win = nil
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            local buf = vim.api.nvim_win_get_buf(win)
+            local ft = vim.bo[buf].filetype
+            local bt = vim.bo[buf].buftype
+            if ft ~= "NvimTree" and bt ~= "terminal" and bt ~= "nofile" then
+              code_win = win
+              break
             end
           end
-          _G.hidden_term_bufs = {}
+
+          if code_win then
+            vim.api.nvim_set_current_win(code_win)
+          end
+
+          -- abre primeiro terminal abaixo do código
+          if vim.api.nvim_buf_is_valid(terms[1]) then
+            vim.cmd("belowright split")
+            vim.api.nvim_win_set_buf(0, terms[1])
+            vim.cmd("resize " .. height)
+          end
+
+          -- abre demais terminais lado a lado (vsplit)
+          for i = 2, #terms do
+            if vim.api.nvim_buf_is_valid(terms[i]) then
+              vim.cmd("vsplit")
+              vim.api.nvim_win_set_buf(0, terms[i])
+            end
+          end
+
+          _G.hidden_terms = {}
+          vim.cmd("wincmd k") -- volta para o código acima
         end
       end,
       "Toggle all terminals",
