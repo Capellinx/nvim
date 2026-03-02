@@ -138,6 +138,18 @@ vim.lsp.config.pyright = {
   },
 }
 
+vim.lsp.config.terraformls = {
+  on_init = M.on_init,
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+}
+
+vim.lsp.config.tflint = {
+  on_init = M.on_init,
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+}
+
 -- Habilita os LSP servers
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("gopls")
@@ -146,6 +158,8 @@ vim.lsp.enable("tailwindcss")
 vim.lsp.enable("html")
 vim.lsp.enable("cssls")
 vim.lsp.enable("pyright")
+vim.lsp.enable("terraformls")
+vim.lsp.enable("tflint")
 
 -- Auto-import e format ao salvar arquivos Go
 vim.api.nvim_create_autocmd("BufWritePre", {
