@@ -113,7 +113,7 @@ local default_plugins = {
       end
 
       -- Instala os parsers
-      local parsers = { "lua", "vim", "vimdoc", "go", "gomod", "gosum", "gowork", "typescript", "tsx", "javascript", "html", "css", "json", "graphql", "yaml" }
+      local parsers = { "lua", "vim", "vimdoc", "go", "gomod", "gosum", "gowork", "typescript", "tsx", "javascript", "html", "css", "json", "graphql", "yaml", "python" }
       vim.schedule(function()
         require("nvim-treesitter").install(parsers)
       end)
@@ -284,21 +284,6 @@ local default_plugins = {
     end,
   },
 
-  -- AI autocomplete
-  {
-    "supermaven-inc/supermaven-nvim",
-    event = "InsertEnter",
-    config = function()
-      require("supermaven-nvim").setup({
-        keymaps = {
-          accept_suggestion = "<Tab>",
-          clear_suggestion = "<C-]>",
-          accept_word = "<C-j>",
-        },
-      })
-    end,
-  },
-
   -- Toggleterm for lazygit and lazydocker
   {
     "akinsho/toggleterm.nvim",
@@ -378,6 +363,7 @@ local default_plugins = {
           scss = { "prettierd", "prettier", stop_after_first = true },
           less = { "prettierd", "prettier", stop_after_first = true },
           markdown = { "prettierd", "prettier", stop_after_first = true },
+          python = { "ruff_format" },
         },
         format_on_save = {
           timeout_ms = 2000,

@@ -72,6 +72,17 @@ autocmd("FileType", {
   end,
 })
 
+-- Python: 4 espaços e desabilita smartindent (conflita com decorators e #)
+autocmd("FileType", {
+  pattern = "python",
+  callback = function()
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
+    vim.opt_local.smartindent = false
+  end,
+})
+
 -- reload some chadrc options on-save
 autocmd("BufWritePost", {
   pattern = vim.tbl_map(function(path)

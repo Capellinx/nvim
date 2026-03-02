@@ -123,6 +123,21 @@ vim.lsp.config.cssls = {
   },
 }
 
+vim.lsp.config.pyright = {
+  on_init = M.on_init,
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        diagnosticMode = "workspace",
+      },
+    },
+  },
+}
+
 -- Habilita os LSP servers
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("gopls")
@@ -130,6 +145,7 @@ vim.lsp.enable("lua_ls")
 vim.lsp.enable("tailwindcss")
 vim.lsp.enable("html")
 vim.lsp.enable("cssls")
+vim.lsp.enable("pyright")
 
 -- Auto-import e format ao salvar arquivos Go
 vim.api.nvim_create_autocmd("BufWritePre", {
