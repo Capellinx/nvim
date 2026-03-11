@@ -2,8 +2,9 @@
 local M = {}
 
 M.ui = {
-  theme = 'jellybeans',
+  theme = 'onedark',
   lsp_semantic_tokens = true,
+  transparency = true,
 }
 
 return M

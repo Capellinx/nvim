@@ -376,6 +376,22 @@ local default_plugins = {
     end,
   },
 
+  -- AI autocomplete
+  {
+    "supermaven-inc/supermaven-nvim",
+    event = "InsertEnter",
+    config = function()
+      require("supermaven-nvim").setup({
+        keymaps = {
+          accept_suggestion = "<Tab>",
+          clear_suggestion = "<C-]>",
+          accept_word = "<C-j>",
+        },
+        log_level = "off",
+      })
+    end,
+  },
+
   -- Only load whichkey after all the gui
   {
     "folke/which-key.nvim",
