@@ -529,6 +529,136 @@ M.go = {
   },
 }
 
+M.flutter = {
+  n = {
+    ["<leader>fr"] = {
+      function()
+        require("nvterm.terminal").send("flutter run", "float")
+      end,
+      "Flutter run",
+    },
+
+    ["<leader>fR"] = {
+      function()
+        require("nvterm.terminal").send("flutter run --release", "float")
+      end,
+      "Flutter run release",
+    },
+
+    ["<leader>fT"] = {
+      function()
+        require("nvterm.terminal").send("flutter test", "float")
+      end,
+      "Flutter test",
+    },
+
+    ["<leader>fB"] = {
+      function()
+        require("nvterm.terminal").send("flutter build apk", "float")
+      end,
+      "Flutter build APK",
+    },
+
+    ["<leader>fc"] = {
+      function()
+        require("nvterm.terminal").send("flutter clean", "float")
+      end,
+      "Flutter clean",
+    },
+
+    ["<leader>fp"] = {
+      function()
+        require("nvterm.terminal").send("flutter pub get", "float")
+      end,
+      "Flutter pub get",
+    },
+  },
+}
+
+M.node = {
+  n = {
+    -- Node direto
+    ["<leader>jr"] = {
+      function()
+        require("nvterm.terminal").send("node " .. vim.fn.expand("%"), "float")
+      end,
+      "Node run current file",
+    },
+
+    -- npm
+    ["<leader>jnR"] = {
+      function() require("nvterm.terminal").send("npm run dev", "float") end,
+      "npm run dev",
+    },
+    ["<leader>jnT"] = {
+      function() require("nvterm.terminal").send("npm test", "float") end,
+      "npm test",
+    },
+    ["<leader>jnB"] = {
+      function() require("nvterm.terminal").send("npm run build", "float") end,
+      "npm run build",
+    },
+    ["<leader>jni"] = {
+      function() require("nvterm.terminal").send("npm install", "float") end,
+      "npm install",
+    },
+
+    -- pnpm
+    ["<leader>jpR"] = {
+      function() require("nvterm.terminal").send("pnpm run dev", "float") end,
+      "pnpm run dev",
+    },
+    ["<leader>jpT"] = {
+      function() require("nvterm.terminal").send("pnpm test", "float") end,
+      "pnpm test",
+    },
+    ["<leader>jpB"] = {
+      function() require("nvterm.terminal").send("pnpm run build", "float") end,
+      "pnpm run build",
+    },
+    ["<leader>jpi"] = {
+      function() require("nvterm.terminal").send("pnpm install", "float") end,
+      "pnpm install",
+    },
+
+    -- yarn
+    ["<leader>jyR"] = {
+      function() require("nvterm.terminal").send("yarn dev", "float") end,
+      "yarn dev",
+    },
+    ["<leader>jyT"] = {
+      function() require("nvterm.terminal").send("yarn test", "float") end,
+      "yarn test",
+    },
+    ["<leader>jyB"] = {
+      function() require("nvterm.terminal").send("yarn build", "float") end,
+      "yarn build",
+    },
+    ["<leader>jyi"] = {
+      function() require("nvterm.terminal").send("yarn install", "float") end,
+      "yarn install",
+    },
+
+    -- bun
+    ["<leader>jbR"] = {
+      function() require("nvterm.terminal").send("bun run dev", "float") end,
+      "bun run dev",
+    },
+    ["<leader>jbT"] = {
+      function() require("nvterm.terminal").send("bun test", "float") end,
+      "bun test",
+    },
+    ["<leader>jbB"] = {
+      function() require("nvterm.terminal").send("bun run build", "float") end,
+      "bun run build",
+    },
+    ["<leader>jbi"] = {
+      function() require("nvterm.terminal").send("bun install", "float") end,
+      "bun install",
+    },
+  },
+}
+
 M.gitsigns = {
   plugin = true,
 

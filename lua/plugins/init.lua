@@ -113,7 +113,7 @@ local default_plugins = {
       end
 
       -- Instala os parsers
-      local parsers = { "lua", "vim", "vimdoc", "go", "gomod", "gosum", "gowork", "typescript", "tsx", "javascript", "html", "css", "json", "graphql", "yaml", "python", "hcl", "terraform", "dockerfile" }
+      local parsers = { "lua", "vim", "vimdoc", "go", "gomod", "gosum", "gowork", "typescript", "tsx", "javascript", "html", "css", "json", "graphql", "yaml", "python", "hcl", "terraform", "dockerfile", "dart" }
       vim.schedule(function()
         require("nvim-treesitter").install(parsers)
       end)
@@ -363,6 +363,7 @@ local default_plugins = {
           scss = { "prettierd", "prettier", stop_after_first = true },
           less = { "prettierd", "prettier", stop_after_first = true },
           markdown = { "prettierd", "prettier", stop_after_first = true },
+          dart = { "dart_format" },
           python = { "ruff_format" },
           terraform = { "terraform_fmt" },
           ["terraform-vars"] = { "terraform_fmt" },

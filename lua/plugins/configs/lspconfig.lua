@@ -162,6 +162,20 @@ vim.lsp.config.docker_compose_language_service = {
   capabilities = M.capabilities,
 }
 
+vim.lsp.config.dartls = {
+  on_init = M.on_init,
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+  cmd = { vim.fn.expand("~/flutter/bin/dart"), "language-server", "--protocol=lsp" },
+  filetypes = { "dart" },
+  settings = {
+    dart = {
+      completeFunctionCalls = true,
+      showTodos = true,
+    },
+  },
+}
+
 vim.lsp.config.yamlls = {
   on_init = M.on_init,
   on_attach = M.on_attach,
@@ -195,6 +209,7 @@ vim.lsp.enable("tflint")
 vim.lsp.enable("dockerls")
 vim.lsp.enable("docker_compose_language_service")
 vim.lsp.enable("yamlls")
+vim.lsp.enable("dartls")
 
 -- Auto-import e format ao salvar arquivos Go
 vim.api.nvim_create_autocmd("BufWritePre", {
