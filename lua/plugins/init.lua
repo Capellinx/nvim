@@ -113,7 +113,7 @@ local default_plugins = {
       end
 
       -- Instala os parsers
-      local parsers = { "lua", "vim", "vimdoc", "go", "gomod", "gosum", "gowork", "typescript", "tsx", "javascript", "html", "css", "json", "graphql", "yaml", "python", "hcl", "terraform", "dockerfile" }
+      local parsers = { "lua", "vim", "vimdoc", "go", "gomod", "gosum", "gowork", "typescript", "tsx", "javascript", "html", "css", "json", "graphql", "yaml", "python", "hcl", "terraform", "dockerfile", "dart" }
       vim.schedule(function()
         require("nvim-treesitter").install(parsers)
       end)
@@ -284,7 +284,7 @@ local default_plugins = {
     end,
   },
 
-  -- Toggleterm for lazygit and lazydocker
+  -- Toggleterm for third-party tools (lazygit, lazydocker, lazysql, posting)
   {
     "akinsho/toggleterm.nvim",
     version = "*",
@@ -292,6 +292,8 @@ local default_plugins = {
     keys = {
       { "<leader>gg", desc = "Lazygit" },
       { "<leader>ld", desc = "Lazydocker" },
+      { "<leader>lq", desc = "Lazysql" },
+      { "<leader>po", desc = "Posting" },
     },
     config = function()
       require("toggleterm").setup({
@@ -335,6 +337,24 @@ local default_plugins = {
         end,
       })
 
+      local lazysql = Terminal:new({
+        cmd = "lazysql",
+        direction = "float",
+        hidden = true,
+        on_open = function(term)
+          vim.cmd("startinsert!")
+        end,
+      })
+
+      local posting = Terminal:new({
+        cmd = "posting",
+        direction = "float",
+        hidden = true,
+        on_open = function(term)
+          vim.cmd("startinsert!")
+        end,
+      })
+
       vim.keymap.set("n", "<leader>gg", function()
         lazygit:toggle()
       end, { desc = "Lazygit" })
@@ -342,6 +362,14 @@ local default_plugins = {
       vim.keymap.set("n", "<leader>ld", function()
         lazydocker:toggle()
       end, { desc = "Lazydocker" })
+
+      vim.keymap.set("n", "<leader>lq", function()
+        lazysql:toggle()
+      end, { desc = "Lazysql" })
+
+      vim.keymap.set("n", "<leader>po", function()
+        posting:toggle()
+      end, { desc = "Posting" })
     end,
   },
 
@@ -363,6 +391,7 @@ local default_plugins = {
           scss = { "prettierd", "prettier", stop_after_first = true },
           less = { "prettierd", "prettier", stop_after_first = true },
           markdown = { "prettierd", "prettier", stop_after_first = true },
+          dart = { "dart_format" },
           python = { "ruff_format" },
           terraform = { "terraform_fmt" },
           ["terraform-vars"] = { "terraform_fmt" },

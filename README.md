@@ -2,6 +2,25 @@
 
 Configuração personalizada do Neovim baseada no NvChad com suporte a Go, TypeScript, Lua e mais.
 
+## Ferramentas Externas Recomendadas
+
+Instale com Homebrew para ter acesso às TUIs integradas ao Neovim:
+
+```bash
+brew install lazygit lazydocker lazysql posting
+```
+
+| Ferramenta  | Keymap       | Descrição                        |
+|-------------|--------------|----------------------------------|
+| lazygit     | `<leader>gg` | TUI para Git                     |
+| lazydocker  | `<leader>ld` | TUI para Docker                  |
+| lazysql     | `<leader>lq` | TUI para bancos SQL               |
+| posting     | `<leader>po` | Cliente HTTP TUI (tipo Postman)  |
+
+> Ver todos os atalhos: `keymaps-tools` no terminal ou `KEYMAPS-TOOLS.md`
+
+---
+
 ## Pré-requisitos
 
 - Neovim >= 0.11
