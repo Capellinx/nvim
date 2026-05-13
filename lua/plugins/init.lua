@@ -247,19 +247,43 @@ local default_plugins = {
   },
 
   -- file managing , picker etc
+  -- {
+  --   "nvim-tree/nvim-tree.lua",
+  --   cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+  --   init = function()
+  --     require("core.utils").load_mappings "nvimtree"
+  --   end,
+  --   opts = function()
+  --     return require "plugins.configs.nvimtree"
+  --   end,
+  --   config = function(_, opts)
+  --     dofile(vim.g.base46_cache .. "nvimtree")
+  --     require("nvim-tree").setup(opts)
+  --   end,
+  -- },
+
   {
-    "nvim-tree/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    init = function()
-      require("core.utils").load_mappings "nvimtree"
-    end,
+    "stevearc/oil.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    cmd = "Oil",
+    keys = {
+      { "<leader>o", function() require("oil").open_float() end, desc = "Oil (float)" },
+      { "<leader>e", function() require("oil").open(vim.fn.getcwd()) end, desc = "Oil (cwd)" },
+      { "-", function() require("oil").open() end, desc = "Oil (parent dir)" },
+    },
     opts = function()
-      return require "plugins.configs.nvimtree"
+      return require "plugins.configs.oil"
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "nvimtree")
-      require("nvim-tree").setup(opts)
+      require("oil").setup(opts)
     end,
+  },
+
+  {
+    "refractalize/oil-git-status.nvim",
+    dependencies = { "stevearc/oil.nvim" },
+    ft = "oil",
+    config = true,
   },
 
   {

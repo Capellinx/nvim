@@ -58,7 +58,15 @@ M.gitsigns = {
     changedelete = { text = "~" },
     untracked = { text = "│" },
   },
+  signs_staged_enable = true,
   on_attach = function(bufnr)
+    -- Definir highlights caso o tema não defina
+    vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = "#a6e3a1" })
+    vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#f9e2af" })
+    vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = "#f38ba8" })
+    vim.api.nvim_set_hl(0, "GitSignsTopdelete", { fg = "#f38ba8" })
+    vim.api.nvim_set_hl(0, "GitSignsChangedelete", { fg = "#fab387" })
+    vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#89b4fa" })
     utils.load_mappings("gitsigns", { buffer = bufnr })
   end,
 }

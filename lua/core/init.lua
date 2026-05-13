@@ -162,14 +162,12 @@ new_cmd("NvChadUpdate", function()
   require "nvchad.updater"()
 end, {})
 
--- Abrir NvimTree automaticamente ao iniciar (após FilePost carregar LSP/treesitter)
-autocmd("User", {
-  pattern = "FilePost",
+-- Abrir Oil automaticamente ao iniciar quando abrir um diretório
+autocmd("VimEnter", {
   once = true,
   callback = function()
-    vim.defer_fn(function()
-      require("nvim-tree.api").tree.open()
-      vim.cmd("wincmd p") -- volta o foco para o arquivo
-    end, 50)
+    if vim.fn.argc() == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1 then
+      require("oil").open(vim.fn.argv(0))
+    end
   end,
 })
