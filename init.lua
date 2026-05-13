@@ -1,35 +1,10 @@
-require "core"
-
-local custom_init_path = vim.api.nvim_get_runtime_file("lua/custom/init.lua", false)[1]
-
-if custom_init_path then
-  dofile(custom_init_path)
+if vim.loader then
+	vim.loader.enable()
 end
 
-require("core.utils").load_mappings()
-
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-
--- bootstrap lazy.nvim!
-if not vim.loop.fs_stat(lazypath) then
-  require("core.bootstrap").gen_chadrc_template()
-  require("core.bootstrap").lazy(lazypath)
+_G.dd = function(...)
+	require("util.debug").dump(...)
 end
+vim.print = _G.dd
 
-dofile(vim.g.base46_cache .. "defaults")
-vim.opt.rtp:prepend(lazypath)
-require "plugins"
-
--- Aplica treesitter ao primeiro buffer após tudo carregar
-vim.api.nvim_create_autocmd("UIEnter", {
-  once = true,
-  callback = function()
-    vim.defer_fn(function()
-      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype == "" then
-          pcall(vim.treesitter.start, buf)
-        end
-      end
-    end, 100)
-  end,
-})
+require("config.lazy")
