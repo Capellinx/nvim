@@ -138,6 +138,7 @@ return {
 	-- AI autocomplete
 	{
 		"supermaven-inc/supermaven-nvim",
+		enabled = false,
 		event = "InsertEnter",
 		config = function()
 			require("supermaven-nvim").setup({
@@ -199,7 +200,7 @@ return {
 				markdown = { "prettierd", "prettier", stop_after_first = true },
 				graphql = { "prettierd", "prettier", stop_after_first = true },
 				python = { "ruff_format" },
-				go = { "gofmt" },
+				go = { "goimports", "gofmt" },
 				terraform = { "terraform_fmt" },
 				hcl = { "terraform_fmt" },
 			},
