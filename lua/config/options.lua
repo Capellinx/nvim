@@ -3,10 +3,34 @@ vim.g.mapleader = " "
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 
-vim.opt.number = true
+vim.opt.number = false
+vim.opt.relativenumber = true
 vim.opt.signcolumn = "yes"
 
 vim.opt.title = true
+
+-- Dynamic title: show project/directory name in Kitty tab
+vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
+	callback = function()
+		local bufname = vim.api.nvim_buf_get_name(0)
+		local dir
+
+		if bufname:match("^oil://") then
+			dir = bufname:gsub("^oil://", "")
+		elseif bufname ~= "" then
+			dir = vim.fn.fnamemodify(bufname, ":p:h")
+		else
+			dir = vim.fn.getcwd()
+		end
+
+		local home = vim.fn.expand("$HOME")
+		if dir == home or dir == home .. "/" then
+			vim.opt.titlestring = "~"
+		else
+			vim.opt.titlestring = vim.fn.fnamemodify(dir, ":t")
+		end
+	end,
+})
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.hlsearch = true
@@ -34,6 +58,8 @@ vim.opt.splitbelow = true -- Put new windows below current
 vim.opt.splitright = true -- Put new windows right of current
 vim.opt.splitkeep = "cursor"
 vim.opt.mouse = ""
+vim.opt.fillchars = { eob = "~" }
+vim.opt.shortmess:remove("I")
 
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])

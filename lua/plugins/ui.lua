@@ -50,6 +50,10 @@ return {
 			})
 
 			opts.presets.lsp_doc_border = true
+
+			opts.cmdline = {
+				view = "cmdline",
+			}
 		end,
 	},
 
@@ -73,15 +77,21 @@ return {
 		"akinsho/bufferline.nvim",
 		event = "VeryLazy",
 		keys = {
-			{ "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
-			{ "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
+			{ "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
+			{ "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev buffer" },
+			{ "<S-l>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
+			{ "<S-h>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev buffer" },
 		},
 		opts = {
 			options = {
-				mode = "tabs",
-				-- separator_style = "slant",
+				mode = "buffers",
 				show_buffer_close_icons = false,
 				show_close_icon = false,
+				always_show_bufferline = true,
+				separator_style = { "", "" },
+				indicator = {
+					style = "none",
+				},
 			},
 		},
 	},
@@ -178,18 +188,7 @@ return {
 	{
 		"folke/snacks.nvim",
 		opts = {
-			dashboard = {
-				preset = {
-					header = [[
-███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
-██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
-██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
-██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
-   ]],
-				},
-			},
+			dashboard = { enabled = false },
 		},
 	},
 }
